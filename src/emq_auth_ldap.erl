@@ -61,14 +61,9 @@ check(#mqtt_client{username = Username}, Password,
 
 ldap_bind(LDAP, UserDn, Password) ->
     case catch eldap:simple_bind(LDAP, UserDn, Password) of
-        ok ->
-            ok;
-        {error, invalidCredentials} ->
-            {error, invalid_credentials};
-        {error, Error} ->
-            {error, Error};
-        {'EXIT', Reason} ->
-            {error, Reason}
+        ok               -> ok;
+        {error, Error}   -> ignore;
+        {'EXIT', Reason} -> {error, Reason}
     end.
 
 fill(Username, UserDn) ->
